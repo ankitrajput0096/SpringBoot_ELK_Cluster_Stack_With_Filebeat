@@ -61,7 +61,7 @@ To fix it, run:
 1. Creating index pattern for logger services
 ![](images/LoggerSerivceIndexPattern.png)
 ![](images/LoggerServiceIndexPattern2.png)
-2. Discover Dashboard for Logger Service One
+2. Discover Dashboard for Logger Services
 ![](images/DiscoverDashboard.png)
 
 
