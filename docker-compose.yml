@@ -1,0 +1,145 @@
+version: "3.7"
+services:
+    # This service is for starting 2 node elasticsearch cluster
+    elasticsearchone:
+      image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+      container_name: elasticsearchone
+      environment:
+        - node.name=elasticsearchone
+        - cluster.name=es-docker-cluster
+        - discovery.seed_hosts=elasticsearchtwo
+        - cluster.initial_master_nodes=elasticsearchone,elasticsearchtwo
+        - bootstrap.memory_lock=true
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      ulimits:
+        memlock:
+          soft: -1
+          hard: -1
+      volumes:
+        - data01:/usr/share/elasticsearchone/data
+      ports:
+       - "9200:9200"
+       - "9300:9300"
+      networks:
+        - elastic
+
+    elasticsearchtwo:
+      image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+      container_name: elasticsearchtwo
+      environment:
+        - node.name=elasticsearchtwo
+        - cluster.name=es-docker-cluster
+        - discovery.seed_hosts=elasticsearchone
+        - cluster.initial_master_nodes=elasticsearchone,elasticsearchtwo
+        - bootstrap.memory_lock=true
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      ulimits:
+        memlock:
+          soft: -1
+          hard: -1
+      volumes:
+        - data02:/usr/share/elasticsearchtwo/data
+      ports:
+       - "9201:9200"
+       - "9301:9300"
+      networks:
+        - elastic
+
+    # This service is for visualizing the data via kibana UI
+    kibana:
+      image: docker.elastic.co/kibana/kibana:7.8.0
+      container_name: kibana
+      environment:
+        ELASTICSEARCH_HOSTS: '["http://elasticsearchone:9200","http://elasticsearchtwo:9200"]'
+      ports:
+       - "5601:5601"
+      networks:
+        - elastic
+      depends_on:
+        - elasticsearchone
+        - elasticsearchtwo
+
+    # This service is for logstash server for inputting data into elastic search cluster from two filebeat servers
+    logstash:
+      build: logstash
+      command: logstash -f logstash.conf
+      container_name: logstash
+      environment:
+        XPACK_MONITORING_ENABLED: "true"
+        XPACK_MONITORING_ELASTICSEARCH_HOSTS: '["http://elasticsearchone:9200","http://elasticsearchtwo:9200"]'
+      ports:
+       - "5043:5043"
+       - "5044:5044"
+      networks:
+        - elastic
+      depends_on:
+        - elasticsearchone
+        - elasticsearchtwo
+
+    # This service is for filebeat server for inputting data into logstash for service `logger_service_one`
+    # NOTE : This filebeat server is reading the logs from folder - 'logsfromserviceone'
+    filebeatloggerserviceone:
+      build: filebeatserviceone
+      container_name: filebeatloggerserviceone
+      ports:
+        - "12201:12201"
+      volumes:
+      - /logsfromserviceone:/usr/share/filebeat/logs/
+      networks:
+        - elastic
+      depends_on:
+        - elasticsearchone
+        - elasticsearchtwo
+        - logstash
+
+    # This service is for filebeat server for inputting data into logstash for service `logger_service_two`
+    # NOTE : This filebeat server is reading the logs from folder - 'logsfromservicetwo'
+    filebeatloggerservicetwo:
+      build: filebeatservicetwo
+      container_name: filebeatloggerservicetwo
+      ports:
+        - "12202:12202"
+      volumes:
+        - /logsfromservicetwo:/usr/share/filebeat/logs/
+      networks:
+        - elastic
+      depends_on:
+        - elasticsearchone
+        - elasticsearchtwo
+        - logstash
+
+    # This is simple spring-boot service to generate logs - service one
+    # NOTE : the logs of this service are being generated in folder - 'logsfromserviceone'
+    logger_service_one:
+      build:
+        context: spring-boot-app-logger-one
+      ports:
+        - "8080:8080"
+      volumes:
+        - /logsfromserviceone:/logs
+      networks:
+        - elastic
+
+    # This is simple spring-boot service to generate logs - service two
+    # NOTE : the logs of this service are being generated in folder - 'logsfromservicetwo'
+    logger_service_two:
+      build:
+        context: Spring-boot-app-logger-two
+      ports:
+        - "8081:8080"
+      volumes:
+        - /logsfromservicetwo:/logs
+      networks:
+        - elastic
+
+# local data disk for saving elastic search data locally on host machine
+volumes:
+  data01:
+    driver: local
+  data02:
+    driver: local
+
+# Defining the network in which all services are connected
+networks:
+  elastic:
+    driver: bridge

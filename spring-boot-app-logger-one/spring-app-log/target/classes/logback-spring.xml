@@ -1,0 +1,28 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<!DOCTYPE configuration>-->
+<!--<configuration>-->
+<!--  <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
+<!--    <destination>logstash_one:5044</destination>-->
+<!--    <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" />-->
+<!--  </appender>-->
+
+<!--  <include resource="org/springframework/boot/logging/logback/base.xml"/>-->
+
+<!--  <root level="INFO">-->
+<!--    <appender-ref ref="LOGSTASH" />-->
+<!--    <appender-ref ref="CONSOLE" />-->
+<!--  </root>-->
+
+<!--</configuration>-->
+
+<!--<configuration>-->
+<!--&lt;!&ndash;    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">&ndash;&gt;-->
+<!--&lt;!&ndash;        <destination>192.168.99.100:5045</destination>&ndash;&gt;-->
+<!--&lt;!&ndash;        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" />&ndash;&gt;-->
+<!--&lt;!&ndash;    </appender>&ndash;&gt;-->
+<!--    <include resource="org/springframework/boot/logging/logback/base.xml"/>-->
+<!--    <root level="INFO">-->
+<!--        &lt;!&ndash;<appender-ref ref="LOGSTASH" />&ndash;&gt;-->
+<!--        <appender-ref ref="CONSOLE" />-->
+<!--    </root>-->
+<!--</configuration>-->
