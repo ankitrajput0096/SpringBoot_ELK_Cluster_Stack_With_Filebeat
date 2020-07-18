@@ -31,6 +31,31 @@
 			"response": []
 		},
 		{
+			"name": "Creating Index two",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9200/google?pretty",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"google"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Deleting Index",
 			"request": {
 				"method": "DELETE",
@@ -80,6 +105,36 @@
 						"twitter",
 						"_doc",
 						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Adding Data To Index two",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n    \"name\" : \"Ankit\",\n    \"hobbies\" : \"Coding\",\n    \"company\" : \"Google\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9200/google/_doc/11",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"google",
+						"_doc",
+						"11"
 					]
 				}
 			},
@@ -155,6 +210,110 @@
 						{
 							"key": "pretty",
 							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Searching All Index",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9200/_all/_search?pretty",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"_all",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Searching Multiple Index",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9200/twitter,goog*/_search?pretty",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"twitter,goog*",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Searching Multiple Index Ignore If not available",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9200/twitter,goog*,cars/_search?ignore_unavailable=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"twitter,goog*,cars",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "ignore_unavailable",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Searching Multiple Index with response filtering",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9200/twitter,goog*/_search?filter_path=hits.total",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200",
+					"path": [
+						"twitter,goog*",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "filter_path",
+							"value": "hits.total"
 						}
 					]
 				}
