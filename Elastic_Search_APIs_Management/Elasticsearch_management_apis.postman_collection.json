@@ -630,26 +630,6 @@
 				}
 			},
 			"response": []
-		},
-		{
-			"name": "Checking ElasticSearch cluster stats Copy",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:9200/_cluster/stats",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "9200",
-					"path": [
-						"_cluster",
-						"stats"
-					]
-				}
-			},
-			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}

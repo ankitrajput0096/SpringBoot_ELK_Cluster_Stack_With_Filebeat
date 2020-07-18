@@ -64,6 +64,8 @@ To fix it, run:
 2. Discover Dashboard for Logger Services
 ![](images/DiscoverDashboard.png)
 
+## Curl Api's to manage elastic-search cluster
+To go through all the curl api's for managing elastic-search cluster are present in folder `Elastic_Search_APIs_Management`
 
 ## Built With
 

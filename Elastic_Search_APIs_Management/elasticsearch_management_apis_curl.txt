@@ -1,0 +1,148 @@
+- Elastic Search API's Management Using Curl
+-------------------------------------------------
+
+- Creating index
+curl --location --request PUT 'http://localhost:9200/twitter?pretty'
+curl --location --request PUT 'http://localhost:9200/google?pretty'
+
+- Delete Index
+curl --location --request DELETE 'http://localhost:9200/twitter?pretty'
+
+- Adding Data to Index
+curl --location --request POST 'http://localhost:9200/twitter/_doc/10' \
+--header 'Content-Type: application/json' \
+--data-raw '{ 
+    "name" : "Ankit",
+    "hobbies" : "Coding"
+}'
+
+
+curl --location --request POST 'http://localhost:9200/google/_doc/11' \
+--header 'Content-Type: application/json' \
+--data-raw '{ 
+    "name" : "Ankit",
+    "hobbies" : "Coding",
+    "company" : "Google"
+}'
+
+- Getting index
+curl --location --request GET 'http://localhost:9200/twitter?pretty'
+
+- Getting index settings
+curl --location --request GET 'http://localhost:9200/twitter/_settings?pretty'
+
+- Getting index stats
+curl --location --request GET 'http://localhost:9200/_stats?pretty'
+
+- Getting if index exists
+curl --location --head 'http://localhost:9200/twitter?pretty'
+
+- Searching index
+curl --location --request GET 'http://localhost:9200/twitter/_search?pretty'
+
+- Searching all index
+curl --location --request GET 'http://localhost:9200/_all/_search?pretty'
+
+- Searching specific data in index
+curl --location --request POST 'http://localhost:9200/google/_search?pretty' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "query" : {
+        "match" : {
+            "name": "Ankit"
+        }
+    }
+}'
+
+- Searching Multiple index
+curl --location --request GET 'http://localhost:9200/twitter,goog*/_search?pretty'
+
+- Searching Multiple Index, ignore if not available
+curl --location --request GET 'http://localhost:9200/twitter,goog*,cars/_search?ignore_unavailable=true'
+
+- Searching Multiple Index with response filtering
+curl --location --request GET 'http://localhost:9200/twitter,goog*/_search?filter_path=hits.total'
+
+- Getting saved data
+curl --location --request GET 'http://localhost:9200/twitter/_doc/10?pretty'
+
+- Update saved data for index
+curl --location --request POST 'localhost:9200/twitter/_update/10?pretty' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "script" : {
+        "source": "ctx._source.name = params.name",
+        "lang": "painless",
+        "params" : {
+            "name" : "Rajput"
+        }
+    }
+}'
+
+- Getting all active indexes
+curl --location --request GET 'http://localhost:9200/_cat/indices?v'
+
+- Getting nodes in elasticsearch cluster
+curl --location --request GET 'http://localhost:9200/_cat/nodes?v'
+
+- Getting no of documents in elasticsearch cluster
+curl --location --request GET 'http://localhost:9200/_cat/count?v'
+
+- All nodes in elasticsearch cluster
+curl --location --request GET 'http://localhost:9200/_nodes/_local'
+
+- Checking health of elasticsearch cluster
+curl --location --request GET 'http://localhost:9200/_cluster/health'
+
+- Checking elasticsearch cluster state
+curl --location --request GET 'http://localhost:9200/_cluster/state'
+
+- Checking elasticsearch cluster stats
+curl --location --request GET 'http://localhost:9200/_cluster/stats'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
