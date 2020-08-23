@@ -10,7 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class DemoApplication implements ApplicationRunner {
 
-	private static final Logger logger = LoggerFactory.getLogger(DemoApplication.class);
+	private static final Logger logger =
+			LoggerFactory.getLogger(DemoApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);

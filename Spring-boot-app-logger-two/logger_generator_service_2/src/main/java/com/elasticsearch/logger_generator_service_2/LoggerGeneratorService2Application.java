@@ -10,7 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class LoggerGeneratorService2Application implements ApplicationRunner {
 
-	private static final Logger logger = LoggerFactory.getLogger(LoggerGeneratorService2Application.class);
+	private static final Logger logger =
+			LoggerFactory.getLogger(LoggerGeneratorService2Application.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(LoggerGeneratorService2Application.class, args);
